@@ -1,0 +1,15 @@
+# Ignorar todo
+*
+
+# Permitir código fuente
+!*.c
+!*.h
+
+# Permitir interfaz RPC
+!*.x
+
+# Permitir Makefile
+!Makefile
+
+# Permitir este archivo
+!.gitignore
