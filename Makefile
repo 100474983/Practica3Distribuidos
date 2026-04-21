@@ -28,8 +28,12 @@ all: clavesRPC.h $(LIBCLAVES) $(LIBPROXY) $(TARGET_SERVER) $(TARGET_CLIENT)
 
 # Genera los archivos RPC solo cuando clavesRPC.x cambia (clavesRPC.h es el indicador de actualización)
 clavesRPC.h: clavesRPC.x
-	rm -f clavesRPC_clnt.c clavesRPC_svc.c clavesRPC_xdr.c clavesRPC.h
-	rpcgen -NM clavesRPC.x
+	rm -f clavesRPC_clnt.c clavesRPC_svc.c clavesRPC_xdr.c clavesRPC.h clavesRPC_client.c Makefile.clavesRPC
+	@[ -f clavesRPC_server.c ] && cp clavesRPC_server.c clavesRPC_server.c.save || true
+	rm -f clavesRPC_server.c
+	rpcgen -aNM clavesRPC.x
+	@[ -f clavesRPC_server.c.save ] && mv clavesRPC_server.c.save clavesRPC_server.c || true
+	rm -f clavesRPC_client.c Makefile.clavesRPC
 
 # Librería de claves
 $(LIBCLAVES): claves.o
