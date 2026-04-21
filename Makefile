@@ -24,10 +24,10 @@ LIBPROXY = libproxyclaves.so
 RPC_GEN_FILES = clavesRPC.h clavesRPC_clnt.c clavesRPC_svc.c clavesRPC_xdr.c clavesRPC_server.c
 
 # Compilación todo en uno
-all: rpcgen $(LIBCLAVES) $(LIBPROXY) $(TARGET_SERVER) $(TARGET_CLIENT)
+all: clavesRPC.h $(LIBCLAVES) $(LIBPROXY) $(TARGET_SERVER) $(TARGET_CLIENT)
 
-# Comando para generar los archivos RPC, menos server y client (esos se generaron solo la primera compilación)
-rpcgen: clavesRPC.x
+# Genera los archivos RPC solo cuando clavesRPC.x cambia (clavesRPC.h es el indicador de actualización)
+clavesRPC.h: clavesRPC.x
 	rm -f clavesRPC_clnt.c clavesRPC_svc.c clavesRPC_xdr.c clavesRPC.h
 	rpcgen -NM clavesRPC.x
 
@@ -77,7 +77,7 @@ run-client: $(TARGET_CLIENT)
 # Limpieza de archivos generados
 clean:
 	rm -f *.o $(TARGET_SERVER) $(TARGET_CLIENT) $(LIBCLAVES) $(LIBPROXY)
-	rm -f clavesRPC_clnt.c clavesRPC_svc.c clavesRPC_xdr.c clavesRPC.h Makefile.clavesRPC
+	rm -f clavesRPC_clnt.c clavesRPC_svc.c clavesRPC_xdr.c clavesRPC.h clavesRPC_client.c Makefile.clavesRPC
 
 # Limpieza completa, incluyendo archivos generados por rpcgen
 distclean: clean
